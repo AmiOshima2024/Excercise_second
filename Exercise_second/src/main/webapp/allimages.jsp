@@ -84,18 +84,22 @@
 					<% int offset = (int) request.getAttribute("offset"); %>
 
 					<% for (int i = 1; i <= totalPages; i++) { %>
-    					<% if (i<= currentPage - 5 || i >= currentPage + 5) { %>
+    					<% if (i < currentPage - 5 || i > currentPage + 5) { %>
         					<% if(!dotsDisplayed) { %>
             					<li>...</li>
             					<% dotsDisplayed = true; %>
-        					<% } %>
+        					<% }
+    					 } %>
+    					<!--  現在のページの前後5ページ以内にある場合はページリンクを表示し、それ以外の場合は<li>要素を非表示-->
+    					<% if (i >= currentPage - 5 && i <= currentPage + 5) { %>
+    						<li>
+        						<% String pageLink = "PaginationServlet?page=" + i; %>       				
+        				    	<a href="<%= pageLink %>" <% if (i == currentPage) { %>class="active"<% } %>><%= i %></a>   				
+    						</li>
+    					<% } else { %>
+    							<li style="display:none;"></li>
     					<% } %>
-    					<li>
-        				<% String pageLink = "PaginationServlet?page=" + i; %>
-        				
-        					<a href="<%= pageLink %>" <% if (i == currentPage) { %>class="active"<% } %>><%= i %></a>
-              				
-    					</li>
+    					
 					<% } %>
 					<button id="next" onclick="nextButton()"><a> > </a></button>
 					<button id="fiveNext" onclick="fiveNextButton()"><a> >> </a></button>
