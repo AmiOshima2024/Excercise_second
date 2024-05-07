@@ -39,12 +39,35 @@ public class ImagesDeleteServlet extends HttpServlet {
 				if (fileName != null && filePath != null) {
 					try {
 						ImagesDao imagesDao = new ImagesDao();
+						
+						long allRecordsWithPagination = imagesDao.getAllImagesWithPagination();
+						
+						int limit = 9;			
+						int page = 1;
+						
+						String pageParam = request.getParameter("page");
+						if (pageParam != null && !pageParam.isEmpty()) {
+							page = Integer.parseInt(pageParam);
+						}
+						
+						int offset = (page - 1) * limit;
+						List<AllImages> imagesWithPagination = imagesDao.getImagesWithPagination(fileName, filePath, limit, offset);
+						
+						request.setAttribute("allRecordsWithPagination", allRecordsWithPagination);
+						
+						request.setAttribute("imagesWithPagination", imagesWithPagination);
+						
+						//現在のページに1が入る
+						request.setAttribute("currentPage", page);
+						request.setAttribute("offset", offset);
+						
 						imagesDao.deleteUploadImage(fileName, filePath);
-
 						//削除後、画像一覧を再取得して一覧に表示
-
 						List<AllImages> imageUrlList = imagesDao.findImageUrl();
 						request.setAttribute("imageUrlList", imageUrlList);
+						RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
+						rd.forward(request, response);
+						
 					} catch (ImageException | UserException e) {
 						e.printStackTrace();
 						request.setAttribute("deleteErrorMEssage", "画像の削除に失敗しました");
@@ -53,8 +76,8 @@ public class ImagesDeleteServlet extends HttpServlet {
 			}
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
-		rd.forward(request, response);
+		//RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
+		//rd.forward(request, response);
 
 	}
 }

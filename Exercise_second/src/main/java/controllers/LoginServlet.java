@@ -51,8 +51,10 @@ public class LoginServlet extends HttpServlet {
 			//画像一覧ページでログイン情報表示用
 			session.setAttribute("loginId", loginId);
 			
-			//AllImagesServletへ遷移する準備
-			nextPage = "AllImagesServlet";
+			//PaginationServletの1ページ目へ遷移する準備
+			//nextPage = "PaginationServlet";
+			response.sendRedirect("PaginationServlet?page=1");
+			return;
 			
 		} catch (UserException e) {
 			//ログインできなかった場合はメッセージをセットしてlogin.jspに表示

@@ -77,12 +77,36 @@ public class imagesUploadServlet extends HttpServlet {
 				imagesDao = new ImagesDao();
 				imagesDao.upLoadImage(fileName, relativeImagePath, userId);
 				List<AllImages> imageUrlList = imagesDao.findImageUrl();
+				
+				
+				long allRecordsWithPagination = imagesDao.getAllImagesWithPagination();
+				
+				String filePath = null;
+				int limit = 9;			
+				int page = 1;
+				
+				String pageParam = request.getParameter("page");
+				if (pageParam != null && !pageParam.isEmpty()) {
+					page = Integer.parseInt(pageParam);
+				}
+				
+				int offset = (page - 1) * limit;
+				List<AllImages> imagesWithPagination = imagesDao.getImagesWithPagination(fileName, filePath, limit, offset);
 					
 				request.setAttribute("imageUrlList", imageUrlList);
 					
 				request.setAttribute("fileName", fileName);
 					
 				request.setAttribute("user_id", userId);
+				
+				request.setAttribute("allRecordsWithPagination", allRecordsWithPagination);
+				
+				request.setAttribute("imagesWithPagination", imagesWithPagination);
+				
+				//現在のページに1が入る
+				request.setAttribute("currentPage", page);
+				request.setAttribute("offset", offset);
+				 
 				
 				//もし、相対パスがスペースを含んでいたら、URLをエンコードする
 				if (!relativeImagePath.contains(" ")) {

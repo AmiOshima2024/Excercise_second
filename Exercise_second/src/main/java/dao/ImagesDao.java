@@ -78,7 +78,7 @@ public class ImagesDao extends BaseDao {
 	}
 	
 	//データベース内の画像の総数を取得し、その数を返すメソッド
-	public long paginationDisplayImages() throws ImageException {
+	public long getAllImagesWithPagination() throws ImageException {
 		long count = 0;
 		try {
 			String sql = "SELECT COUNT(*) FROM image_management";
@@ -96,30 +96,27 @@ public class ImagesDao extends BaseDao {
 		return count;
 	}
 	
-	//ページネーション用のメソッド
+	//ページネーション用のメソッド 1ページにつき9件取得する
 	public List<AllImages> getImagesWithPagination(String fileName, String filePath, int limit, int offset) throws ImageException {
 		try {
-			String sql = "SELECT * FROM image_management LIMIT ? OFFSET ?";
+			String sql = "SELECT * FROM image_management ORDER BY image_id ASC  LIMIT 9 OFFSET ?";
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, limit);
-			ps.setInt(2,  offset);
+			ps.setInt(1,  offset);			
 			rs = ps.executeQuery();
 			
 			List<AllImages> images = new ArrayList<>();
 			while (rs.next()) {
-				AllImages image = new AllImages(
-					rs.getInt("imageId"),
-				    rs.getInt("userId"),
-				    rs.getString("imageFileName"),
-				    rs.getString("imagePath"),
-				    rs.getString("deletionDatatime")
-						
+				AllImages image = new AllImages(	
+					rs.getInt("image_id"),
+				    rs.getInt("user_id"),
+				    rs.getString("image_filename"),
+				    rs.getString("image_path"),
+				    rs.getString("deletion_datetime")		
 				);
 				//結果から画像情報を取得してimageに設定する
 				images.add(image);
 			}
-			return images;
-			
+			return images;	
 		
 		} catch (SQLException e) {
 			e.printStackTrace();

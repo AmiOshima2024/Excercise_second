@@ -10,6 +10,10 @@
 <%@ page import="controllers.ModalServlet"%>
 <%@ page import="controllers.PaginationServlet"%>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.net.URLDecoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -27,36 +31,76 @@
 		//サーブレットからﾛｸﾞｲﾝIDデータの受け取り
 		String strloginId = (String) session.getAttribute("loginId");
 		%>
-		<%= strloginId%>さん
+		<%= strloginId %>さん
 
 		<!-- ログアウト機能 -->
 		<a href="LogoutServlet">ログアウト</a>
 
 		<!-- 写真一覧表示 -->
 		<div class="imgList" id="paginationImgList">
-			<!-- allimages.jsp -->
-			<%
+			<!-- AllImagesServlet -->
+			<%--
 			List<AllImages> imageUrlList = (List<AllImages>) request.getAttribute("imageUrlList");
-			%>
-			<%
+			--%>
+			<%--
 			if (imageUrlList == null || imageUrlList.isEmpty()) {
-			%>
+			--%>
 				<!-- imageUrlListがnullまたは空の場合、エラーメッセージを表示 -->
-				<p>画像が見つかりません。</p>
-				<%
+				<!-- p>画像が見つかりません。</p>
+				<%--
 			} else {
-			%>
+			--%>
 				<!-- imageUrlListに画像情報がある場合、画像を表示 -->
-				<%
+				<%--
 					for (int i = 0; i < imageUrlList.size() && i < ConstantCommon.MAX_ITEMS; i++) {
 						AllImages image = imageUrlList.get(i);
-				%>
-					<img src="<%= image.getImagePath() %>"  onclick="expandImage('<%= image.getImagePath() %>')" >
-				<%
+				--%>
+					 <!--img src="<%--= image.getImagePath() %>"  onclick="expandImage('<%= image.getImagePath() %>')" >
+				<%--
 }
-				%>
-			<%
-			} %>
+				--%>
+			<%--
+			} --%>
+			
+			<!-- PaginationServlet ページネーション部分 -->
+			<div class="pagenumbers" id="pagination">
+			<% List<AllImages> imageUrlList = (List<AllImages>) request.getAttribute("imageUrlList"); %>
+			<% long allRecordsWithPagination = (long) request.getAttribute("allRecordsWithPagination"); %>
+			<% List<AllImages> imagesWithPagination = (List<AllImages>) request.getAttribute("imagesWithPagination"); %>
+			<% for (AllImages image : imagesWithPagination) { %>	
+				 <% String imagePath = URLDecoder.decode(image.getImagePath(), StandardCharsets.UTF_8.toString()); %>
+				<img src="<%= imagePath %>" onclick="expandImage('<%= imagePath %>')">
+			<% } %>
+				
+				<% int limit = 9; %>
+				<ul id="pageLink" data-totalpages="<%= (int)Math.ceil((double)allRecordsWithPagination / limit) %>">
+					<button id="back" onclick="backButton()"><a> < </a></button>
+					<button id="fiveBack" onclick="fiveBuckButton()"><a> << </a></button>
+					
+					<% int totalPages = (int)Math.ceil((double)allRecordsWithPagination / limit); %>
+					<% int currentPage = (int) request.getAttribute("currentPage"); %>
+					<% int maxVisiblePages = 6; %>
+					<% boolean dotsDisplayed = false; %>
+					<% int offset = (int) request.getAttribute("offset"); %>
+
+					<% for (int i = 1; i <= totalPages; i++) { %>
+    					<% if (i<= currentPage - 5 || i >= currentPage + 5) { %>
+        					<% if(!dotsDisplayed) { %>
+            					<li>...</li>
+            					<% dotsDisplayed = true; %>
+        					<% } %>
+    					<% } %>
+    					<li>
+        				<% String pageLink = "PaginationServlet?page=" + i; %>
+        				
+        					<a href="<%= pageLink %>" <% if (i == currentPage) { %>class="active"<% } %>><%= i %></a>
+              				
+    					</li>
+					<% } %>
+					<button id="next" onclick="nextButton()"><a> > </a></button>
+					<button id="fiveNext" onclick="fiveNextButton()"><a> >> </a></button>
+				</ul>
+  			</div>
 		</div>
 	</div>	
 	<!-- 画像のアップロード機能 -->
@@ -74,78 +118,7 @@
 		<button type="submit" name="delete">アップロードした画を削除する</button>
 	</form>
 	
-	<!-- ページネーション部分 -->
-	<script>
-		var paginationImagesArray = [
-			<%
-        	List<AllImages> paginationImagesArray = (List<AllImages>) request.getAttribute("paginationImagesArray");
-        		if (paginationImagesArray != null) {
-            		for (AllImages images : paginationImagesArray) {
-            			for (int i = 0; i < paginationImagesArray.size() && i < ConstantCommon.MAX_ITEMS; i++) { %>
-            				'<%= images.getImagePath() %>'
-            <%			}
-    		%>				
-    		<%	
-        			}
-        		}
-			%>
-		];
-		
-		var currentPage = 1;
-		<% PaginationCalcCommon paginationCalcCommon = new PaginationCalcCommon();
-			int maxItems = paginationCalcCommon.maxImagePieces();
-		%>
-		var maxItems = maxItems;
-
-    	// List<AllImages> paginationImagesArrayのインデックスを保持する変数
-    	var paginationCurrentIndex = -1;
-    	
-     	var paginationImagePath = '<%= request.getParameter("imagePath") %>';
-     	if (paginationImagesArray.indexOf(paginationImagePath) !== -1) {
-         	//９枚の画像を一つのインデックスとして取得したい
-     		paginationCurrentIndex = paginationImagesArray.indexOf(paginationImagePath);
-         }
-
-     	function movePage() {
-         	//画像を表示するdivを取得
-			var paginationImgList = document.getElementById("paginationImgList"); 
-			//divの中にimgタグを９個作る
-			for (let i = 1; i <= maxItems; i++) {
-				var imgTag = document.createElement('img');
-				imgTag.src = paginationImagesArray[paginationCurrentIndex];
-				paginationImgList.appendChild(imgTag);
-			}
-        }
-
-     	function back() {
-			if(currentPage != 1) {
-				currentPage--;
-				paginationCurrentIndex = paginationCurrentIndex - 1;
-				movePage();
-			} else {
-				return false;
-			}
-        }
-
-        function next() {
-			if(currentPage != maxItems){
-				currentPage++;
-				paginationCurrentIndex = paginationCurrentIndex + 1;
-				movePage();
-			} else {
-				return false;
-			}
-        }
-
-	</script>
-	
-	<div class="pagination">
-		<button onclick='back'> < </button>
-		<button onclick='fiveBack'> << </button>
-		<button onclick='next'> > </button>
-		<button onclick='fiveNext'> >> </button>
-  	</div>
-  	
 	<script src="expandImage.js"></script>
+	<script src="pagination.js"></script>
 </body>
 </html>
