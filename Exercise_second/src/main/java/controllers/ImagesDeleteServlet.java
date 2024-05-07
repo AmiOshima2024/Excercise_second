@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -24,7 +25,8 @@ public class ImagesDeleteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		request.setCharacterEncoding("UTF-8");
 		String deleteRequest = request.getParameter("delete");
 
 		if (deleteRequest != null) {
@@ -61,10 +63,21 @@ public class ImagesDeleteServlet extends HttpServlet {
 						request.setAttribute("currentPage", page);
 						request.setAttribute("offset", offset);
 						
+						String relativeImagePath = "upload/" + fileName;
+						
 						imagesDao.deleteUploadImage(fileName, filePath);
 						//削除後、画像一覧を再取得して一覧に表示
 						List<AllImages> imageUrlList = imagesDao.findImageUrl();
 						request.setAttribute("imageUrlList", imageUrlList);
+						
+						//もし、相対パスがスペースを含んでいたら、URLをエンコードする
+						if (!relativeImagePath.contains(" ")) {
+							request.setAttribute("relativeImagePath", relativeImagePath);
+						} else {
+							String pathWithSpace = relativeImagePath;
+							String encodePath = URLEncoder.encode(pathWithSpace, "UTF-8");
+							request.setAttribute("relativeImagePath", encodePath);
+						}												
 						RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
 						rd.forward(request, response);
 						
@@ -75,9 +88,5 @@ public class ImagesDeleteServlet extends HttpServlet {
 				}
 			}
 		}
-
-		//RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
-		//rd.forward(request, response);
-
 	}
 }

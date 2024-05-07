@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
 <title>ログイン画面</title>
 </head>
 
@@ -25,23 +26,13 @@
 	<% 	
 	}
 	%>
-	
-	<form action="LoginServlet" method="post">
-	
+	<h3 id="loginTitle">アルバムアプリ</h3>
+	<form action="LoginServlet" method="post" id="loginForm">
 		<!-- ログインID -->
-		<label class="loginId">ID
-			<input type="text" id="id" class="test" name="loginId">
-		</label>
-		
+		<label class="loginId">ID<input type="text" id="id" class="test" name="loginId"></label>
 		<!-- パスワード -->
-		<label>PW
-			<input type="password" id="password" class="test" name="loginPassword">
-		</label>
-		
+		<label>PW<input type="password" id="password" class="test" name="loginPassword"></label>
 		<input type="submit" id="loginBtn" value="ログイン">
-		
 	</form>
-	
-	
 </body>
 </html>

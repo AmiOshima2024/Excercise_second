@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+/*ログイン画面login.jsp*/
+#loginForm, #loginTitle {
+	text-align: center;
+	margin: 0;
+}
+#loginForm label {
+    margin: 0 auto;
+    width: 200px;
+    display: block;
+}
+#loginBtn {
+    display: block;
+    margin: 10px auto;
+}
+
+/*画像一覧画面allimages.jsp*/
+/*写真一覧*/
+#loginAndLogout {
+	display: flex;
+	justify-content: flex-end;
+}
+#strLoginId, #logoutLink {
+	margin: 0;
+}
+#strLoginId {
+	margin-right: 5px;
+}
+#logoutLink {
+	margin-left: 5px;
+}
+#allPicturesWrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+#picturesWrapper {
+	width: 50%;
+	margin: 0 auto;
+}
+#allPictures {
+	width: 100%;
+	height: auto;
+}
+/*ページリンク*/
+#pagination {
+	display: flex;
+	justify-content: center;
+}
+#backButton {
+	order: -1;
+	display: flex;
+
+}
+#fiveBack {
+	order: -1;
+	margin-right: 5px;
+}
+#pageLink {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+}
+#pageLinkWrapper {
+	display: flex;
+	justify-content: center;
+}
+#pageLinkWrapper li {
+	margin: 0 10px;
+}
+/*アップロード機能*/
+#uploadWrapper {
+	margin: 10px auto;
+}
+#uploadForm {
+	display: flex;
+	justify-content: center;
+}
+#uploadForm p {
+	margin: 0;
+}
+/*削除機能*/
+#deleteForm {
+	display: flex;
+	justify-content: center;
+}
+#inputForNameAndPath {
+	display: flex;
+	flex-direction: column;
+}
+#inputForNameAndPath input {
+	margin-top: 15px;
+	padding: 5px;
+}
+#inputForNameAndPath button {
+	margin-top: 15px;
+}
+
+/*画像拡大表示expandImage.jsp*/
+#targetImage {
+	margin: 0 15%;
+	width: 70%;
+}
+#modalNextImage, #modalPrevImage, #backToAllImages {
+	position: absolute;
+}
+#modalNextImage {
+	top: 30%;
+	right: 10%;
+}
+#modalPrevImage {
+	top: 30%;
+	left: 10%;
+}
+#backToAllImages {
+	right: 10%;
+	bottom: 30%;
+}
+
+
+
+
+
+
+
