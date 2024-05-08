@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,10 +46,15 @@ public class ImagesDeleteServlet extends HttpServlet {
 						int limit = 9;			
 						int page = 1;
 						
-						String pageParam = request.getParameter("page");
-						if (pageParam != null && !pageParam.isEmpty()) {
-							page = Integer.parseInt(pageParam);
+						String currentPageParam = request.getParameter("page");
+						if (currentPageParam != null && !currentPageParam.isEmpty()) {
+							page = Integer.parseInt(currentPageParam);
 						}
+						
+						//String pageParam = request.getParameter("page");
+						//if (pageParam != null && !pageParam.isEmpty()) {
+							//page = Integer.parseInt(pageParam);
+						//}
 						
 						int offset = (page - 1) * limit;
 						List<AllImages> imagesWithPagination = imagesDao.getImagesWithPagination(fileName, filePath, limit, offset);
@@ -78,9 +82,9 @@ public class ImagesDeleteServlet extends HttpServlet {
 							String encodePath = URLEncoder.encode(pathWithSpace, "UTF-8");
 							request.setAttribute("relativeImagePath", encodePath);
 						}												
-						RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
-						rd.forward(request, response);
-						
+						//RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
+						//rd.forward(request, response);
+						response.sendRedirect("PaginationServlet?page=" + page);
 					} catch (ImageException | UserException e) {
 						e.printStackTrace();
 						request.setAttribute("deleteErrorMEssage", "画像の削除に失敗しました");

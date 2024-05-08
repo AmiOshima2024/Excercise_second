@@ -24,7 +24,9 @@ public class AllImagesServlet extends HttpServlet {
 	
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
+	    request.setCharacterEncoding("UTF-8");
+	
 		String nextPage = null;
 		try {
 			//画像一覧の取得

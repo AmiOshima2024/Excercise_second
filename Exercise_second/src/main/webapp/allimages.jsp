@@ -41,6 +41,7 @@
 				<% List<AllImages> imageUrlList = (List<AllImages>) request.getAttribute("imageUrlList"); %>
 				<% long allRecordsWithPagination = (long) request.getAttribute("allRecordsWithPagination"); %>
 				<% List<AllImages> imagesWithPagination = (List<AllImages>) request.getAttribute("imagesWithPagination"); %>
+				<% String relativeImagePath = (String) request.getAttribute("relativeImagePath"); %>
 				<% for (AllImages image : imagesWithPagination) { %>	
 				<% String imagePath = URLDecoder.decode(image.getImagePath(), StandardCharsets.UTF_8.toString()); %>
 				<div id="picturesWrapper">
@@ -116,10 +117,15 @@
 			<div id="inputForNameAndPath">
 				<input type="text" name="fileName" value="<%= fileName %>"> 
 				<input type="text" name="filePath" value="<%= filePath %>">
+				<input type="hidden" name="page" id="currentPage" value="<%= request.getParameter("page") %>">
 				<button type="submit" name="delete">アップロードした画を削除する</button>
 			</div>
 		</form>
 	</div>
+	<script>
+		var currentPage = new URLSearchParams(window.location.search).get("page");
+		document.getElementById("currentPage").value = currentPage;
+	</script>
 	
 	<script src="expandImage.js"></script>
 	<script src="pagination.js"></script>

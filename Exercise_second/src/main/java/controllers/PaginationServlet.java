@@ -25,6 +25,9 @@ import model.AllImages;
 public class PaginationServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		
 		String fileName = null;
 		String filePath = null;
 		int limit = 9;
@@ -73,6 +76,8 @@ public class PaginationServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//imagesDaoから画像を9枚取得・全てのレコードを取得
+		request.setCharacterEncoding("UTF-8");
+		
 		try {
 			String fileName = null;
 			String filePath = null;

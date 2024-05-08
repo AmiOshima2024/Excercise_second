@@ -34,6 +34,7 @@ public class imagesUploadServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");
 		//画像のリストを再取得して、リクエストにセットする
 		ImagesDao imagesDao;
 		try {
