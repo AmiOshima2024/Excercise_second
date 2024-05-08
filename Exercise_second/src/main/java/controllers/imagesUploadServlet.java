@@ -41,9 +41,6 @@ public class imagesUploadServlet extends HttpServlet {
 			//画像をアップロードする際に、user_managementテーブルに存在するuser_id値を使用する
 			HttpSession session = request.getSession();
 			
-			// user_idの値をデバッグ出力する
-			System.out.println("セッションから取得したユーザーID: " + session.getAttribute("user_id"));
-			
 			Integer userIdObj = (Integer) session.getAttribute("user_id");
 
 			if (userIdObj != null) {
