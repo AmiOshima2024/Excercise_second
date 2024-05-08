@@ -39,15 +39,7 @@ public class ModalServlet extends HttpServlet {
 		//取得した画像URLの配列をリクエスト属性に設定する
 		request.setAttribute("urlsArray", urlsArray);
 		
-		// expandImage.jspにフォワードする
         RequestDispatcher rd = request.getRequestDispatcher("/expandImage.jsp");
         rd.forward(request, response);
 	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }
