@@ -19,10 +19,7 @@ function backButton() {
 
 function nextButton() {
 	let totalPages = document.getElementById("pageLink").getAttribute("data-totalpages");
-	// URLを取得
 	let url = new URL(window.location.href);
-
-	// URLSearchParamsオブジェクトを取得
 	let params = url.searchParams;
 	
 	let value = parseInt(params.get('page'));
@@ -36,10 +33,7 @@ function nextButton() {
 }
 
 function fiveBuckButton() {
-	// URLを取得
 	let url = new URL(window.location.href);
-
-	// URLSearchParamsオブジェクトを取得
 	let params = url.searchParams;
 	
 	let value = parseInt(params.get('page'));
@@ -54,10 +48,7 @@ function fiveBuckButton() {
 
 function fiveNextButton() {
 	let totalPages = document.getElementById("pageLink").getAttribute("data-totalpages");
-	// URLを取得
 	let url = new URL(window.location.href);
-
-	// URLSearchParamsオブジェクトを取得
 	let params = url.searchParams;
 	
 	let value = parseInt(params.get('page'));

@@ -8,15 +8,12 @@ import java.sql.SQLException;
 
 import exception.UserException;
 
-//Daoクラスの共通処理をまとめたスーパークラス
 public class BaseDao {
-	
-	//DBへの接続・SQL文事前解析・SELECT文の結果保持
+
 	protected Connection con = null;
 	protected PreparedStatement ps = null;
 	protected ResultSet rs = null;
 	
-	//コンストラクタ　初期処理DB接続
 	public BaseDao() throws UserException {
 		getConnection();
 	}
@@ -39,7 +36,6 @@ public class BaseDao {
 				e.printStackTrace();
 				throw new UserException("SQL実行中に例外が発生しました");
 		}
-		
 	}
 	
 	//DBとの接続を解除する

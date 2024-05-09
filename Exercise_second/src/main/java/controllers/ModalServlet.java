@@ -35,7 +35,6 @@ public class ModalServlet extends HttpServlet {
 			e.printStackTrace();
 			System.out.println("画像url配列が取得できません");
 		}
-		
 		//取得した画像URLの配列をリクエスト属性に設定する
 		request.setAttribute("urlsArray", urlsArray);
 		

@@ -1,19 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List"%>
-<%@ page import="model.AllImages"%>
-<%@ page import="exception.ImageException"%>
-<%@ page import="exception.UserException"%>
-<%@ page import="dao.ImagesDao"%>
-<%@ page import="controllers.ModalServlet"%>
-<%@ page import="controllers.PaginationServlet"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.net.URLEncoder" %>
-<%@ page import="java.net.URLDecoder" %>
-<%@ page import="java.nio.charset.StandardCharsets" %>
-
-
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%
+%><%@ page import="java.util.List"%><% 
+%><%@ page import="model.AllImages"%><%
+%><%@ page import="exception.ImageException"%><%
+%><%@ page import="exception.UserException"%><%
+%><%@ page import="dao.ImagesDao"%><%
+%><%@ page import="controllers.ModalServlet"%><%
+%><%@ page import="controllers.PaginationServlet"%><%
+%><%@ page import="java.util.ArrayList" %><%
+%><%@ page import="java.net.URLEncoder" %><%
+%><%@ page import="java.net.URLDecoder" %><%
+%><%@ page import="java.nio.charset.StandardCharsets" %><%
+%><!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">

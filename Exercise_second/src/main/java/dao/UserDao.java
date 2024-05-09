@@ -20,8 +20,6 @@ public class UserDao extends BaseDao{
 		ArrayList<LoginUser> userList = new ArrayList<>();
 		try {
 			String sql = "SELECT * FROM user_management";
-			
-			//検索の実行
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			

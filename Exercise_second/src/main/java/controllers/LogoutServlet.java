@@ -14,21 +14,14 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
-	
-	//ログアウト用
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
 			//セッションの状態を破棄
 			HttpSession session = request.getSession(false);
 			
 			if (session != null) {
 				session.invalidate();
 			}
-			
-			//login.jspに表示するメッセージをセット
 			request.setAttribute("message", "ログアウトしました");
-			
 			response.sendRedirect("login.jsp");
-			
 		}
 }

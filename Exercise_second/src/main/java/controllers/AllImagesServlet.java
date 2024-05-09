@@ -23,7 +23,7 @@ import model.AllImages;
 public class AllImagesServlet extends HttpServlet {
 	
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 	    request.setCharacterEncoding("UTF-8");
 	
@@ -36,8 +36,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			
 			//取得した画像情報をリクエストスコープにセット
 			request.setAttribute("imageUrlList", imageUrlList);
-			
-			//allimages.jspに遷移する準備
+		
 			nextPage = "allimages.jsp";
 			
 		} catch(ImageException e) {
@@ -54,7 +53,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			nextPage = "login.jsp";
 		}
 		
-		//次の画面に遷移
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(nextPage);
 		requestDispatcher.forward(request, response);
 	

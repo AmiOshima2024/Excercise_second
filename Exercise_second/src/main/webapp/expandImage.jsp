@@ -39,9 +39,10 @@
 			if (currentIndex < jsurlsArray.length - 1) {
 		        currentIndex++;
 		        updateImage();
-		    } else {
-				return false;
-			}
+		        if(currentIndex === jsurlsArray.length - 1) {
+		        	document.getElementById("modalNextImage").disabled = true;
+				}
+		    } 
 		}
 	
 		//前へボタンがクリックされた時の処理
@@ -49,9 +50,10 @@
 			if (currentIndex > 0) {
 				currentIndex--;
 				updateImage();
-			} else {S
-				return false;
-			}
+				if(currentIndex === jsurlsArray[0]) {
+					document.getElementById("modalPrevImage").disabled = true;
+				}
+			} 
 		}
 	
 		function backToAllImages() {

@@ -29,8 +29,8 @@ public class ImagesDeleteServlet extends HttpServlet {
 		String deleteRequest = request.getParameter("delete");
 
 		if (deleteRequest != null) {
-			String fileName = request.getParameter("fileName"); // fileName を取得
-			String filePath = request.getParameter("filePath"); // filePath を取得
+			String fileName = request.getParameter("fileName"); 
+			String filePath = request.getParameter("filePath"); 
 
 			if (fileName != null && filePath != null) {
 				HttpSession session = request.getSession();
@@ -51,11 +51,6 @@ public class ImagesDeleteServlet extends HttpServlet {
 							page = Integer.parseInt(currentPageParam);
 						}
 						
-						//String pageParam = request.getParameter("page");
-						//if (pageParam != null && !pageParam.isEmpty()) {
-							//page = Integer.parseInt(pageParam);
-						//}
-						
 						int offset = (page - 1) * limit;
 						List<AllImages> imagesWithPagination = imagesDao.getImagesWithPagination(fileName, filePath, limit, offset);
 						
@@ -74,7 +69,7 @@ public class ImagesDeleteServlet extends HttpServlet {
 						List<AllImages> imageUrlList = imagesDao.findImageUrl();
 						request.setAttribute("imageUrlList", imageUrlList);
 						
-						//もし、相対パスがスペースを含んでいたら、URLをエンコードする
+						//相対パスがスペースを含んでいたら、URLをエンコードする
 						if (!relativeImagePath.contains(" ")) {
 							request.setAttribute("relativeImagePath", relativeImagePath);
 						} else {
@@ -82,8 +77,6 @@ public class ImagesDeleteServlet extends HttpServlet {
 							String encodePath = URLEncoder.encode(pathWithSpace, "UTF-8");
 							request.setAttribute("relativeImagePath", encodePath);
 						}												
-						//RequestDispatcher rd = request.getRequestDispatcher("/allimages.jsp");
-						//rd.forward(request, response);
 						response.sendRedirect("PaginationServlet?page=" + page);
 					} catch (ImageException | UserException e) {
 						e.printStackTrace();

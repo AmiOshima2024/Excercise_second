@@ -44,38 +44,31 @@ public class imagesUploadServlet extends HttpServlet {
 			Integer userIdObj = (Integer) session.getAttribute("user_id");
 
 			if (userIdObj != null) {
-			    int userId = userIdObj.intValue();
-			    //ユーザーIDが正しく取得できた場合の処理
-			    System.out.println("ユーザーID: " + userId);
-				//name属性がimgのファイルをpartオブジェクトとして取得する
+			    int userId = userIdObj.intValue();			   
 				Part part = request.getPart("img");
-				//Calenderオブジェクトを取得
 				Calendar c = Calendar.getInstance();
-				//日付と時刻のフォーマット指定
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMDDHHmmss");
-				//カレンダーから日付と時刻を取得し、指定したフォーマットに変換
 				String timeStamp = sdf.format(c.getTime());
 				//ファイル名を取得
 				String fileName = timeStamp + part.getSubmittedFileName();
-				
 				//画像を保存するディレクトリを指定
 				String uploadDirectory = getServletContext().getRealPath("/upload") + File.separator + fileName;
-				
 				//画像の相対パスを生成
 				String relativeImagePath = "upload/" + fileName;
 				
-					//ディレクトリがなかったら、file作る
+				//ディレクトリがな2い場合はfileを作る
 				File uploadDirFile = new File(uploadDirectory);
 				if(!uploadDirFile.exists()) {
 					uploadDirFile.mkdirs();
 				}
 					
 				part.write(uploadDirectory);
-					
+				//もう一度、プロジェクトフォルダにpart.writeしてみる→デバッグでないuploadフォルダにアップロードされるかも
+				
+				
 				imagesDao = new ImagesDao();
 				imagesDao.upLoadImage(fileName, relativeImagePath, userId);
 				List<AllImages> imageUrlList = imagesDao.findImageUrl();
-				
 				
 				long allRecordsWithPagination = imagesDao.getAllImagesWithPagination();
 				
@@ -101,12 +94,11 @@ public class imagesUploadServlet extends HttpServlet {
 				
 				request.setAttribute("imagesWithPagination", imagesWithPagination);
 				
-				//現在のページに1が入る
 				request.setAttribute("currentPage", page);
+				
 				request.setAttribute("offset", offset);
 				 
-				
-				//もし、相対パスがスペースを含んでいたら、URLをエンコードする
+				//相対パスがスペースを含んでいたら、URLをエンコードする
 				if (!relativeImagePath.contains(" ")) {
 					request.setAttribute("relativeImagePath", relativeImagePath);
 				} else {
